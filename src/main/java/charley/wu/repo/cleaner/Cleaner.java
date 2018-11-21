@@ -16,7 +16,9 @@ import java.util.List;
  */
 public class Cleaner {
 
-  private static final String HOME = System.getenv("HOME");
+  private static final String LINUS_HOME = System.getenv("HOME");
+  private static final String WINDOWS_HOME = System.getenv("HOMEPATH");;
+  private static final String HOME = LINUS_HOME != null ? LINUS_HOME : WINDOWS_HOME;
   private static final String DEFAULT_MAVEN_PATH = HOME + "/.m2/repository/";
   private static final String DEFAULT_GRADLE_PATH = HOME + "/.gradle/caches/modules-2/files-2.1/";
   private static final String REGEX = ".*(unknown|lastUpdated|error).*";
