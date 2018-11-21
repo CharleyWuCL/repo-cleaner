@@ -21,7 +21,7 @@ public class Cleaner {
   private static final String HOME = LINUX_HOME != null ? LINUX_HOME : WINDOWS_HOME;
   private static final String DEFAULT_MAVEN_PATH = HOME + "/.m2/repository/";
   private static final String DEFAULT_GRADLE_PATH = HOME + "/.gradle/caches/modules-2/files-2.1/";
-  private static final String REGEX = ".*(unknown|lastUpdated|error).*";
+  private static final String REGEX = ".*(unknown|lastUpdated).*"; //.*(unknown|lastUpdated|error).*
 
   private List<String> basePaths = new ArrayList<>();
   private int count = 0;
