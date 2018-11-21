@@ -32,6 +32,8 @@ public class Cleaner {
    * @param gradlePath  Gradle仓库目录
    */
   public Cleaner(String mavenPath, String gradlePath) {
+    String fileSeparator = System.getProperty("file.separator");
+    DEFAULT_MAVEN_PATH.replace("/", fileSeparator);
     basePaths.add(mavenPath = mavenPath != null ? mavenPath : DEFAULT_MAVEN_PATH);
     basePaths.add(gradlePath = gradlePath != null ? gradlePath : DEFAULT_GRADLE_PATH);
     System.out.println("Maven path is: "+mavenPath);
