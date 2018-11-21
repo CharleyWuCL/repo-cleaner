@@ -100,7 +100,7 @@ public class Cleaner {
           deleteBad(subPath, Files.isDirectory(subPath));
         }
       }
-      System.out.println(path.toString());
+      System.out.println("Deleted: "+path.toString());
       count++;
       Files.deleteIfExists(path);
     }catch (IOException e){
