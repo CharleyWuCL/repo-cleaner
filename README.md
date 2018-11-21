@@ -7,7 +7,7 @@ Maven及Gradle在使用过程中会由于自动加载、网络等各种原因会
 ### 无用文件
 - 带有`lastUpdated`字符的文件
 - 带有`unknown`字符的文件及目录
-- `error`目录
+- `error`目录，此目录有待商榷
 
 ### 运行环境
 - JAVA8

@@ -29,8 +29,8 @@ public class Cleaner {
    * @param gradlePath  Gradle仓库目录
    */
   public Cleaner(String mavenPath, String gradlePath) {
-    basePaths.add(mavenPath != null ? mavenPath : DEFAULT_MAVEN_PATH);
-    basePaths.add(gradlePath != null ? gradlePath : DEFAULT_GRADLE_PATH);
+    basePaths.add(mavenPath = mavenPath != null ? mavenPath : DEFAULT_MAVEN_PATH);
+    basePaths.add(gradlePath = gradlePath != null ? gradlePath : DEFAULT_GRADLE_PATH);
     System.out.println("Maven path is: "+mavenPath+"; Gradle path is: "+gradlePath);
   }
 
@@ -38,10 +38,10 @@ public class Cleaner {
    * 主函数
    */
   public void clean() {
-    for (String path : basePaths) {
-      Path dir = Paths.get(path);
-      if (null == dir) {
-        System.err.println("Dir "+path+" not exits.");
+    for (String basePathStr : basePaths) {
+      Path dir = Paths.get(basePathStr);
+      if (Files.notExists(dir)) {
+        System.err.println("Dir "+basePathStr+" not exits.");
         continue;
       }
       clean(dir);
@@ -50,15 +50,16 @@ public class Cleaner {
 
   /**
    * Clean 内部方法
-   * @param dir 目录
+   * @param path 目录
    */
-  private void clean(Path dir) {
-    if (checkBad(dir)) {
-      deleteBad(dir);
+  private void clean(Path path) {
+    boolean isDir = Files.isDirectory(path);
+    if (checkBad(path)) {
+      deleteBad(path, isDir);
       return;
     }
-    if (Files.isDirectory(dir)) {
-      try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
+    if (isDir) {
+      try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
         for (Path subPath : stream) {
           clean(subPath);
         }
@@ -84,9 +85,15 @@ public class Cleaner {
    *
    * @param path 文件路径
    */
-  private void deleteBad(Path path) {
-    System.out.println(path.toString());
+  private void deleteBad(Path path, boolean isDir) {
     try{
+      if(isDir){
+        DirectoryStream<Path> stream = Files.newDirectoryStream(path);
+        for(Path subPath: stream){
+          deleteBad(subPath, Files.isDirectory(subPath));
+        }
+      }
+      System.out.println(path.toString());
       Files.deleteIfExists(path);
     }catch (IOException e){
       e.printStackTrace();
