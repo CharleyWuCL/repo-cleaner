@@ -22,6 +22,7 @@ public class Cleaner {
   private static final String REGEX = ".*(unknown|lastUpdated|error).*";
 
   private List<String> basePaths = new ArrayList<>();
+  private int count = 0;
 
   /**
    * 构造函数
@@ -31,7 +32,8 @@ public class Cleaner {
   public Cleaner(String mavenPath, String gradlePath) {
     basePaths.add(mavenPath = mavenPath != null ? mavenPath : DEFAULT_MAVEN_PATH);
     basePaths.add(gradlePath = gradlePath != null ? gradlePath : DEFAULT_GRADLE_PATH);
-    System.out.println("Maven path is: "+mavenPath+"; Gradle path is: "+gradlePath);
+    System.out.println("Maven path is: "+mavenPath);
+    System.out.println("Gradle path is: "+gradlePath);
   }
 
   /**
@@ -46,6 +48,7 @@ public class Cleaner {
       }
       clean(dir);
     }
+    System.out.println("成功删除 "+count+" 个文件及目录。");
   }
 
   /**
@@ -94,6 +97,7 @@ public class Cleaner {
         }
       }
       System.out.println(path.toString());
+      count++;
       Files.deleteIfExists(path);
     }catch (IOException e){
       e.printStackTrace();
